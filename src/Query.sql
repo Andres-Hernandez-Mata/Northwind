@@ -15,11 +15,14 @@ SELECT * FROM
 dbo.Orders 
 WHERE OrderDate 
 BETWEEN ('1997-01-27 00:00:00.000') AND ('1997-03-24 00:00:00.000');
+/* 5. Seleccione el nombre del producto, el precio unitario y las cantidades en stock de todos los productos que se han vendido en EE. UU */
+SELECT P.ProductName, P.UnitPrice, P.UnitsInStock
+FROM dbo.Products P
+INNER JOIN dbo.[Order Details] OD ON (OD.ProductID = P.ProductID)
+INNER JOIN dbo.Orders O ON (O.OrderID = OD.OrderID)
+WHERE O.ShipCountry = 'USA';
 
 
-/* 5 */
-SELECT * FROM dbo.Products;
-SELECT P.ProductName, P.UnitPrice, P.UnitsInStock FROM dbo.Products P;
 /* 7 */
 SELECT SUM(OD.Quantity) FROM dbo.[Order Details] OD
 WHERE OD.OrderID = 10248;
