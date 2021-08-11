@@ -2,18 +2,15 @@
 SELECT * FROM 
 dbo.Customers 
 WHERE Country = 'USA';
+/* 2. Seleccionar productos cuya existencia esté entre 15 y 39 piezas */
+SELECT * FROM 
+dbo.Products 
+WHERE UnitsInStock BETWEEN 15 AND 39;
 
 
 
 
 
-
-
-
-
-/* 2 */
-SELECT * FROM dbo.Products;
-SELECT * FROM dbo.Products WHERE UnitsInStock BETWEEN 15 AND 39;
 /* 3 */
 SELECT * FROM dbo.Suppliers;
 SELECT * FROM dbo.Suppliers WHERE ContactTitle = 'Marketing Manager';
