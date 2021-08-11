@@ -43,6 +43,13 @@ INNER JOIN dbo.[Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN dbo.Products P ON (P.ProductID = OD.ProductID)
 INNER JOIN dbo.Categories C ON (C.CategoryID = P.CategoryID)
 WHERE O.OrderDate = '1997-01-01 00:00:00.000';
+/* 10. Seleccione clientes cuyo país sea EE. UU., ESPAÑA, ITALIA */
+SELECT * FROM dbo.Customers C
+WHERE C.Country IN ('USA', 'SPAIN', 'ITALY')
+ORDER BY C.Country;
+
+
+
 
 
 /* 16 */
