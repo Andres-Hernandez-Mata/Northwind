@@ -10,15 +10,13 @@ WHERE UnitsInStock BETWEEN 15 AND 39;
 SELECT * FROM 
 dbo.Suppliers 
 WHERE ContactTitle = 'Marketing Manager';
+/* 4. Seleccione los pedidos cuya fecha de venta fue entre el 27 de enero de 1997 y el 24 de marzo de 1997 */
+SELECT * FROM 
+dbo.Orders 
+WHERE OrderDate 
+BETWEEN ('1997-01-27 00:00:00.000') AND ('1997-03-24 00:00:00.000');
 
 
-
-
-
-
-/* 4 */
-SELECT * FROM dbo.Orders;
-SELECT * FROM dbo.Orders WHERE OrderDate BETWEEN ('1997-01-27 00:00:00.000') AND ('1997-03-24 00:00:00.000');
 /* 5 */
 SELECT * FROM dbo.Products;
 SELECT P.ProductName, P.UnitPrice, P.UnitsInStock FROM dbo.Products P;
