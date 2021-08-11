@@ -34,7 +34,15 @@ WHERE OD.OrderID = 10248;
 SELECT * FROM dbo.Orders O
 INNER JOIN dbo.Customers C ON (C.CustomerID = O.CustomerID)
 WHERE C.CompanyName = 'Hanari Carnes';
-
+/* 9. Seleccione el empleado, la categoría de producto y el producto de todos los empleados que procesaron el pedido en 1997 */
+SELECT CONCAT (E.FirstName, ' ', E.LastName) Employee, 
+C.CategoryName, P.ProductName FROM 
+dbo.Orders O
+INNER JOIN dbo.Employees E ON (E.EmployeeID = O.EmployeeID)
+INNER JOIN dbo.[Order Details] OD ON (OD.OrderID = O.OrderID)
+INNER JOIN dbo.Products P ON (P.ProductID = OD.ProductID)
+INNER JOIN dbo.Categories C ON (C.CategoryID = P.CategoryID)
+WHERE O.OrderDate = '1997-01-01 00:00:00.000';
 
 
 /* 16 */
