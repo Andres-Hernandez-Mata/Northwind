@@ -55,6 +55,13 @@ UNION
 SELECT * FROM dbo.Products P
 WHERE P.UnitPrice 
 IN (SELECT MIN(P.UnitPrice) FROM dbo.Products P)
+/* 12. Seleccione el pedido de envio mas barato, el envio medio y el envio mas caro */
+SELECT MIN(OS.Subtotal) ExpensiveShipping, 
+MAX(OS.Subtotal) CheapestShipping, 
+AVG(OS.Subtotal) AverageShipping
+FROM dbo.Orders O
+INNER JOIN dbo.[Order Subtotals] OS ON (OS.OrderID = O.OrderID)
+
 
 
 
