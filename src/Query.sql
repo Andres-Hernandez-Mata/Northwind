@@ -26,19 +26,14 @@ SELECT * FROM
 dbo.Products P
 INNER JOIN dbo.Suppliers S ON (S.SupplierID = P.SupplierID)
 WHERE S.CompanyName = 'New Orleans Cajun Delights';
-
-
-
-
 /* 7. Seleccione el total (suma) de productos del pedido 10248 */
-
 SELECT SUM(OD.Quantity) FROM 
 dbo.[Order Details] OD
 WHERE OD.OrderID = 10248;
-
-
-
-
+/* 8. Seleccione todos los pedidos del cliente Hanari Carnes */
+SELECT * FROM dbo.Orders O
+INNER JOIN dbo.Customers C ON (C.CustomerID = O.CustomerID)
+WHERE C.CompanyName = 'Hanari Carnes';
 
 
 
@@ -50,6 +45,4 @@ INNER JOIN dbo.[Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN dbo.Products P ON (P.ProductID = OD.ProductID)
 WHERE ShipCountry = 'France';
 
-SELECT * FROM dbo.Products;
-SELECT * FROM dbo.[Order Details];
 
