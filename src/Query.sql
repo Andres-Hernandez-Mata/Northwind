@@ -30,11 +30,18 @@ WHERE S.CompanyName = 'New Orleans Cajun Delights';
 
 
 
-/* 7 */
-SELECT SUM(OD.Quantity) FROM dbo.[Order Details] OD
+/* 7. Seleccione el total (suma) de productos del pedido 10248 */
+
+SELECT SUM(OD.Quantity) FROM 
+dbo.[Order Details] OD
 WHERE OD.OrderID = 10248;
-SELECT COUNT(P.ProductID) FROM dbo.Products P;
-SELECT SUM(P.ProductID) FROM dbo.Products P;
+
+
+
+
+
+
+
 /* 16 */
 SELECT * FROM dbo.Orders;
 SELECT P.ProductName, O.OrderID, C.CompanyName FROM dbo.Orders O 
