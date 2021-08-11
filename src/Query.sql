@@ -47,8 +47,14 @@ WHERE O.OrderDate = '1997-01-01 00:00:00.000';
 SELECT * FROM dbo.Customers C
 WHERE C.Country IN ('USA', 'SPAIN', 'ITALY')
 ORDER BY C.Country;
-
-
+/* 11. Seleccione el producto mas caro y mas barato */
+SELECT * FROM dbo.Products P
+WHERE P.UnitPrice 
+IN (SELECT MAX(P.UnitPrice) FROM dbo.Products P)
+UNION 
+SELECT * FROM dbo.Products P
+WHERE P.UnitPrice 
+IN (SELECT MIN(P.UnitPrice) FROM dbo.Products P)
 
 
 
