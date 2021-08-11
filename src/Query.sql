@@ -21,6 +21,13 @@ FROM dbo.Products P
 INNER JOIN dbo.[Order Details] OD ON (OD.ProductID = P.ProductID)
 INNER JOIN dbo.Orders O ON (O.OrderID = OD.OrderID)
 WHERE O.ShipCountry = 'USA';
+/* 6. Seleccione los productos que pertenecen al proveedor New Orleans Cajun Delights */ 
+SELECT * FROM 
+dbo.Products P
+INNER JOIN dbo.Suppliers S ON (S.SupplierID = P.SupplierID)
+WHERE S.CompanyName = 'New Orleans Cajun Delights';
+
+
 
 
 /* 7 */
