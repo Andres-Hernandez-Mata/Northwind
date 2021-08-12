@@ -1,3 +1,4 @@
+Use Northwind;
 /* 1. Seleccionar clientes cuyo pais sea Estados Unidos (EE. UU.) */
 SELECT * FROM 
 dbo.Customers 
@@ -61,9 +62,14 @@ MAX(OS.Subtotal) CheapestShipping,
 AVG(OS.Subtotal) AverageShipping
 FROM dbo.Orders O
 INNER JOIN dbo.[Order Subtotals] OS ON (OS.OrderID = O.OrderID)
-
-
-
+/* 13. Inserte un cliente completando todos los campos de la tabla */
+INSERT INTO dbo.Customers ( 
+CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
+Country, Phone, Fax
+) VALUES ('UANL', 'FCFM', 'LSTI', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
+'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
+'83294045');
+SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
 
 /* 16 */
 SELECT * FROM dbo.Orders;
