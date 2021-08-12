@@ -1,2 +1,2 @@
 # Northwind
-SQL Server
+Microsoft SQL Server Management Studio
