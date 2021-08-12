@@ -70,6 +70,15 @@ Country, Phone, Fax
 'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
 '83294045');
 SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
+/* 14. Actualice el nombre del nuevo cliente pasando el número de identificación obtenido en el punto 13 */
+UPDATE dbo.Customers SET CompanyName = 'FCFM.LSTI'
+WHERE CustomerID = 'UANL';
+SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
+
+
+
+
+
 
 /* 16 */
 SELECT * FROM dbo.Orders;
