@@ -74,13 +74,12 @@ SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
 UPDATE dbo.Customers SET CompanyName = 'FCFM.LSTI'
 WHERE CustomerID = 'UANL';
 SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
+/* 15. Eliminar el cliente insertado en el punto 13 */
+DELETE FROM dbo.Customers WHERE CustomerID = 'UANL';
+SELECT * FROM dbo.Customers C WHERE C.CustomerID = 'UANL';
 
 
-
-
-
-
-/* 16 */
+/* 16. Seleccione los productos cuyos pedidos (incluidos sus clientes) se enviaron a Francia */
 SELECT * FROM dbo.Orders;
 SELECT P.ProductName, O.OrderID, C.CompanyName FROM dbo.Orders O 
 INNER JOIN dbo.Customers C ON (C.CustomerID = O.CustomerID)
