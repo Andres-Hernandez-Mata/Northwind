@@ -1,6 +1,7 @@
 # Northwind
 Microsoft SQL Server Management Studio
 
+## Ejercicios SQL
 1. Select customers whose country is the United States (USA).
 
 2. Select products whose existence is between 15 and 39 pieces.
