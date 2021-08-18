@@ -18,10 +18,10 @@ dbo.Orders
 WHERE OrderDate >= ('1997-01-27 00:00:00.000') AND OrderDate <= ('1997-03-24 00:00:00.000');
 /* 5. Seleccione el nombre del producto, el precio unitario y las cantidades en stock de todos los productos que se han vendido en EE. UU */
 SELECT P.ProductName, P.UnitPrice, P.UnitsInStock
-FROM dbo.Products P
-INNER JOIN dbo.[Order Details] OD ON (OD.ProductID = P.ProductID)
-INNER JOIN dbo.Orders O ON (O.OrderID = OD.OrderID)
-WHERE O.ShipCountry = 'USA';
+FROM dbo.Products P, dbo.[Order Details] OD, dbo.Orders O 
+WHERE (OD.ProductID = P.ProductID) AND
+(O.OrderID = OD.OrderID) AND
+O.ShipCountry = 'USA';
 /* 6. Seleccione los productos que pertenecen al proveedor New Orleans Cajun Delights */ 
 SELECT * FROM 
 dbo.Products P
