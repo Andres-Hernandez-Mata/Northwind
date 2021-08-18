@@ -75,6 +75,14 @@ AVG(OS.Subtotal) AverageShipping
 FROM dbo.Orders O
 INNER JOIN dbo.[Order Subtotals] OS ON (OS.OrderID = O.OrderID);
 
+/*SELECT * FROM Orders
+WHERE Freight = (SELECT MIN(Freight) FROM Orders)
+SELECT SUM(Freight)/count(Freight)
+FROM Orders
+SELECT * FROM Orders
+WHERE Freight =(SELECT MAX(Freight) FROM Orders)
+*/
+
 /* 13. Inserte un cliente completando todos los campos de la tabla */
 INSERT INTO dbo.Customers ( 
 CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
