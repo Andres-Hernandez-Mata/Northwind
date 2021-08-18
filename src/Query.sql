@@ -2,15 +2,16 @@ Use Northwind;
 /* 1. Seleccionar clientes cuyo pais sea Estados Unidos (EE. UU.) */
 SELECT * FROM 
 dbo.Customers 
-WHERE Country = 'USA';
+WHERE Country IN ('USA');
 /* 2. Seleccionar productos cuya existencia esté entre 15 y 39 piezas */
 SELECT * FROM 
 dbo.Products 
-WHERE UnitsInStock BETWEEN 15 AND 39;
+WHERE UnitsInStock >= 15 AND UnitsInStock <= 39
+ORDER BY UnitsInStock;
 /* 3. Seleccione los proveedores cuyo cargo de contacto es gerente de marketing */
 SELECT * FROM 
 dbo.Suppliers 
-WHERE ContactTitle = 'Marketing Manager';
+WHERE ContactTitle LIKE '%Marketing%';
 /* 4. Seleccione los pedidos cuya fecha de venta fue entre el 27 de enero de 1997 y el 24 de marzo de 1997 */
 SELECT * FROM 
 dbo.Orders 
