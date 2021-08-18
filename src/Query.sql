@@ -15,8 +15,7 @@ WHERE ContactTitle LIKE '%Marketing%';
 /* 4. Seleccione los pedidos cuya fecha de venta fue entre el 27 de enero de 1997 y el 24 de marzo de 1997 */
 SELECT * FROM 
 dbo.Orders 
-WHERE OrderDate 
-BETWEEN ('1997-01-27 00:00:00.000') AND ('1997-03-24 00:00:00.000');
+WHERE OrderDate >= ('1997-01-27 00:00:00.000') AND OrderDate <= ('1997-03-24 00:00:00.000');
 /* 5. Seleccione el nombre del producto, el precio unitario y las cantidades en stock de todos los productos que se han vendido en EE. UU */
 SELECT P.ProductName, P.UnitPrice, P.UnitsInStock
 FROM dbo.Products P
