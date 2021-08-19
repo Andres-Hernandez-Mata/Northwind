@@ -55,7 +55,6 @@ AND Country = 'Germany';
 /* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
 
 /* 10. Muestra el número, el máximo y el mínimo por categoría de precio. */
-
 SELECT MAX(P.UnitPrice) AS Maximum, MIN(P.UnitPrice) AS Minimum
 FROM Products P
 INNER JOIN Categories C ON (P.CategoryID = C.CategoryID)
@@ -65,3 +64,12 @@ SELECT CONCAT(E.FirstName, ' ', E.LastName) AS Employee, COUNT(O.EmployeeID) AS 
 FROM Employees E
 INNER JOIN Orders O ON (E.EmployeeID = O.EmployeeID)
 GROUP BY E.FirstName, E.LastName
+
+/* 12. Muestra el nombre del empleado, el cliente y los productos de su pedido cuyo descuento en su ticket es superior a 10. */
+SELECT E.FirstName, C.CompanyName, P.ProductName  FROM Orders O
+INNER JOIN Employees E ON (E.EmployeeID = O.EmployeeID)
+INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
+INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
+INNER JOIN Products P ON (P.ProductID = OD.ProductID)
+WHERE OD.Discount > .10
+
