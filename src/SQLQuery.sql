@@ -42,5 +42,10 @@ INNER JOIN Products P ON (P.ProductID = OD.ProductID)
 INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
 WHERE P.ProductName IN ('Flotemysost', 'Filo Mix');
 
+/* 7. Mostrar los productos que pertenecen a la categoría condimentos y productos lácteos. */
+SELECT P.* FROM Products P 
+INNER JOIN Categories C ON (C.CategoryID = P.CategoryID)
+WHERE C.CategoryName IN ('Condiments', 'Dairy Products')
+ORDER BY P.ProductID
 
-SELECT * FROM [Order Details Extended]
+SELECT * FROM Categories
