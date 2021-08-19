@@ -16,4 +16,7 @@ WHERE City IN ('Buenos Aires', 'Madrid')
 ORDER BY City DESC;
 
 /* 3. Seleccione el uso del valor del subtotal (precio unitario y cantidad) en el detalle del pedido de venta para listar los pedidos del más grande al más pequeño. Para cada pedido mostrar el Nombre de la Empresa y el SubTotal y el peso total del pedido. */
-
+SELECT C.CompanyName, OS.Subtotal, O.Freight FROM Orders O 
+INNER JOIN [Order Subtotals] OS ON (OS.OrderID = O.OrderID)
+INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
+ORDER BY OS.Subtotal DESC;
