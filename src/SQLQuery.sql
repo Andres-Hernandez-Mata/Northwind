@@ -20,3 +20,16 @@ SELECT C.CompanyName, OS.Subtotal, O.Freight FROM Orders O
 INNER JOIN [Order Subtotals] OS ON (OS.OrderID = O.OrderID)
 INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
 ORDER BY OS.Subtotal DESC;
+
+/* 4. Seleccione OrderDate, el ProductName y el UnitPrice del pedido realizado por CustomerID CHOPS. */
+
+SELECT O.CustomerID, P.ProductName, P.UnitPrice, O.OrderDate FROM Orders O
+INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
+INNER JOIN Products P ON (P.ProductID = OD.ProductID)
+WHERE O.CustomerID = 'CHOPS';
+
+/* 5. Mostrar la cantidad de productos por categoría, seleccionando el nombre de la categoría y el número de productos de esta categoría, así como la contabilidad de su precio para el stock de todos los productos y su existencia. */
+
+
+
+
