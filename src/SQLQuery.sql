@@ -29,6 +29,15 @@ INNER JOIN Products P ON (P.ProductID = OD.ProductID)
 WHERE O.CustomerID = 'CHOPS';
 
 /* 5. Mostrar la cantidad de productos por categoría, seleccionando el nombre de la categoría y el número de productos de esta categoría, así como la contabilidad de su precio para el stock de todos los productos y su existencia. */
+SELECT C.CategoryName, COUNT(P.CategoryID) AS QuantityProducts,
+SUM(P.UnitPrice) AS AccountingPrice, SUM(P.UnitsInStock) AS UnitsInStock
+FROM Products P
+INNER JOIN Categories C ON (C.CategoryID = P.CategoryID)
+GROUP BY C.CategoryName
+
+
+SELECT * FROM Products
+SELECT * FROM [Products by Category]
 
 
 
