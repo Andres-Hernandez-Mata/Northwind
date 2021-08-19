@@ -73,3 +73,10 @@ INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN Products P ON (P.ProductID = OD.ProductID)
 WHERE OD.Discount > .10
 
+/* 13. Mostrar los productos cuyo precio oscila entre 20 y 60 dólares. */
+SELECT * FROM Products
+WHERE UnitPrice BETWEEN 20 AND 60
+ORDER BY UnitPrice
+
+
+
