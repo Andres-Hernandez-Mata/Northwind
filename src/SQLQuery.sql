@@ -76,7 +76,26 @@ WHERE OD.Discount > .10
 /* 13. Mostrar los productos cuyo precio oscila entre 20 y 60 dólares. */
 SELECT * FROM Products
 WHERE UnitPrice BETWEEN 20 AND 60
-ORDER BY UnitPrice
+ORDER BY UnitPrice;
 
+/* 14. Cree un procedimiento almacenado que inserte dos clientes, actualice uno de ellos y borre sólo uno. */
+
+
+GO
+CREATE PROCEDURE Clients
+AS
+INSERT INTO Customers ( 
+CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
+Country, Phone, Fax
+) VALUES ('UANL1', 'FCFM1', 'LSTI1', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
+'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
+'83294045'), ('UANL2', 'FCFM2', 'LSTI2', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
+'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
+'83294045');
+UPDATE Customers SET ContactTitle = 'Programmer' WHERE CustomerID = 'UANL1';
+DELETE Customers WHERE CustomerID = 'UANL2';
+GO;
+
+EXEC Clients;
 
 
