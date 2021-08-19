@@ -48,4 +48,9 @@ INNER JOIN Categories C ON (C.CategoryID = P.CategoryID)
 WHERE C.CategoryName IN ('Condiments', 'Dairy Products')
 ORDER BY P.ProductID
 
-SELECT * FROM Categories
+/* 8. Seleccione todos los clientes que no tienen Región y un FAX, del País de Alemania. */
+SELECT * FROM Customers
+WHERE Region IS NULL AND Fax IS NULL
+AND Country = 'Germany';
+
+/* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
