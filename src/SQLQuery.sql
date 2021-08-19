@@ -54,3 +54,6 @@ WHERE Region IS NULL AND Fax IS NULL
 AND Country = 'Germany';
 
 /* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
+
+/* 10. Muestra el número, el máximo y el mínimo por categoría de precio. */
+
