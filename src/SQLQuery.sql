@@ -35,10 +35,12 @@ FROM Products P
 INNER JOIN Categories C ON (C.CategoryID = P.CategoryID)
 GROUP BY C.CategoryName
 
+/* 6. Seleccione el nombre del producto y el nombre de la empresa para todos los clientes que pidieron el nombre del producto "Flotemysost" y "Filo Mix". */
+SELECT P.ProductName, C.CompanyName FROM Orders O
+INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
+INNER JOIN Products P ON (P.ProductID = OD.ProductID)
+INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
+WHERE P.ProductName IN ('Flotemysost', 'Filo Mix');
 
-SELECT * FROM Products
-SELECT * FROM [Products by Category]
 
-
-
-
+SELECT * FROM [Order Details Extended]
