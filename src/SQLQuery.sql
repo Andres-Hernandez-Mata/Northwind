@@ -22,7 +22,6 @@ INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
 ORDER BY OS.Subtotal DESC;
 
 /* 4. Seleccione OrderDate, el ProductName y el UnitPrice del pedido realizado por CustomerID CHOPS. */
-
 SELECT O.CustomerID, P.ProductName, P.UnitPrice, O.OrderDate FROM Orders O
 INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN Products P ON (P.ProductID = OD.ProductID)
@@ -56,4 +55,10 @@ AND Country = 'Germany';
 /* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
 
 /* 10. Muestra el número, el máximo y el mínimo por categoría de precio. */
+SELECT MAX(P.UnitPrice) AS Maximum, MIN(P.UnitPrice) AS Minimum
+FROM Categories C
+INNER JOIN Products P ON (P.CategoryID = C.CategoryID)
+
+/* 11.  */
+
 
