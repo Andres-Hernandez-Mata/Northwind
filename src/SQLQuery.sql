@@ -55,10 +55,13 @@ AND Country = 'Germany';
 /* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
 
 /* 10. Muestra el número, el máximo y el mínimo por categoría de precio. */
+
 SELECT MAX(P.UnitPrice) AS Maximum, MIN(P.UnitPrice) AS Minimum
-FROM Categories C
-INNER JOIN Products P ON (P.CategoryID = C.CategoryID)
+FROM Products P
+INNER JOIN Categories C ON (P.CategoryID = C.CategoryID)
 
-/* 11.  */
-
-
+/* 11. Mostrar las cuentas de los pedidos que cada empleado ha realizado (mostrar el nombre y el apellido en una sola columna y el número de pedidos). */
+SELECT CONCAT(E.FirstName, ' ', E.LastName) AS Employee, COUNT(O.EmployeeID) AS NumberOrders
+FROM Employees E
+INNER JOIN Orders O ON (E.EmployeeID = O.EmployeeID)
+GROUP BY E.FirstName, E.LastName
