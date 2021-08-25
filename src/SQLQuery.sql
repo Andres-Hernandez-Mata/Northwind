@@ -85,16 +85,16 @@ ORDER BY UnitPrice;
 CREATE PROCEDURE Clients
 AS
 BEGIN
-INSERT INTO Customers ( 
-CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
-Country, Phone, Fax
-) VALUES ('UANL1', 'FCFM1', 'LSTI1', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
-'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
-'83294045'), ('UANL2', 'FCFM2', 'LSTI2', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
-'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
-'83294045');
-UPDATE Customers SET ContactTitle = 'Programmer' WHERE CustomerID = 'UANL1';
-DELETE Customers WHERE CustomerID = 'UANL2';
+	INSERT INTO Customers ( 
+	CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
+	Country, Phone, Fax
+	) VALUES ('UANL1', 'FCFM1', 'LSTI1', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
+	'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
+	'83294045'), ('UANL2', 'FCFM2', 'LSTI2', 'Manager', 'Pedro de Alba S/N, Niños Héroes', 
+	'San Nicolás', 'MTY', '66451', 'Mexico', '(81) 8329-4001',
+	'83294045');
+	UPDATE Customers SET ContactTitle = 'Programmer' WHERE CustomerID = 'UANL1';
+	DELETE Customers WHERE CustomerID = 'UANL2';
 END
 
 EXEC Clients;
