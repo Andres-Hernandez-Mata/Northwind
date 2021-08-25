@@ -25,7 +25,8 @@ ORDER BY OS.Subtotal DESC;
 SELECT O.CustomerID, P.ProductName, P.UnitPrice, O.OrderDate FROM Orders O
 INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN Products P ON (P.ProductID = OD.ProductID)
-WHERE O.CustomerID = 'CHOPS';
+WHERE O.CustomerID = 'CHOPS'
+ORDER BY O.OrderDate DESC;
 
 /* 5. Mostrar la cantidad de productos por categoría, seleccionando el nombre de la categoría y el número de productos de esta categoría, así como la contabilidad de su precio para el stock de todos los productos y su existencia. */
 SELECT C.CategoryName, COUNT(P.CategoryID) AS QuantityProducts,
@@ -55,9 +56,10 @@ AND Country = 'Germany';
 /* 9. Seleccione la descripción del producto para el cultivo "fr" para el producto. */
 
 /* 10. Muestra el número, el máximo y el mínimo por categoría de precio. */
-SELECT MAX(P.UnitPrice) AS Maximum, MIN(P.UnitPrice) AS Minimum
+SELECT P.ProductName, C.CategoryName, MIN(P.UnitPrice) AS Minimum, MAX(P.UnitPrice) AS Maximum
 FROM Products P
 INNER JOIN Categories C ON (P.CategoryID = C.CategoryID)
+GROUP BY P.ProductName, C.CategoryName, C.CategoryID
 
 /* 11. Mostrar las cuentas de los pedidos que cada empleado ha realizado (mostrar el nombre y el apellido en una sola columna y el número de pedidos). */
 SELECT CONCAT(E.FirstName, ' ', E.LastName) AS Employee, COUNT(O.EmployeeID) AS NumberOrders
@@ -80,10 +82,9 @@ ORDER BY UnitPrice;
 
 /* 14. Cree un procedimiento almacenado que inserte dos clientes, actualice uno de ellos y borre sólo uno. */
 
-
-GO
 CREATE PROCEDURE Clients
 AS
+BEGIN
 INSERT INTO Customers ( 
 CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode,
 Country, Phone, Fax
@@ -94,7 +95,7 @@ Country, Phone, Fax
 '83294045');
 UPDATE Customers SET ContactTitle = 'Programmer' WHERE CustomerID = 'UANL1';
 DELETE Customers WHERE CustomerID = 'UANL2';
-GO;
+END
 
 EXEC Clients;
 
