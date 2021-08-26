@@ -68,12 +68,13 @@ INNER JOIN Orders O ON (E.EmployeeID = O.EmployeeID)
 GROUP BY E.FirstName, E.LastName
 
 /* 12. Muestra el nombre del empleado, el cliente y los productos de su pedido cuyo descuento en su ticket es superior a 10. */
-SELECT E.FirstName, C.CompanyName, P.ProductName  FROM Orders O
+SELECT E.FirstName AS Employee, C.CompanyName AS Customer, P.ProductName AS Product FROM Orders O
 INNER JOIN Employees E ON (E.EmployeeID = O.EmployeeID)
 INNER JOIN Customers C ON (C.CustomerID = O.CustomerID)
 INNER JOIN [Order Details] OD ON (OD.OrderID = O.OrderID)
 INNER JOIN Products P ON (P.ProductID = OD.ProductID)
 WHERE OD.Discount > .10
+ORDER BY E.FirstName
 
 /* 13. Mostrar los productos cuyo precio oscila entre 20 y 60 dólares. */
 SELECT * FROM Products
