@@ -95,9 +95,7 @@ BEGIN
 END
 
 
-
 EXEC SPCustomers 'LSTI', 'UANL', 'FCFM', 'Owner', 'Mataderos  2312',
-	'México N.L', 'SP', '05023', '05023', '(5) 555-3932', '(5) 555-3745', 'DELETE';
-
+	'México N.L', 'SP', '05023', '05023', '(5) 555-3932', '(5) 555-3745', 'INSERT';
 
 SELECT * FROM Exercise
