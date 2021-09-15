@@ -1,4 +1,4 @@
-	
+
 CREATE TABLE Proveedores(
 	idProveedor int IDENTITY(1,1) NOT NULL,
 	razonSocial varchar(60) NOT NULL,
