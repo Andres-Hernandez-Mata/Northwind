@@ -9,10 +9,10 @@ SELECT * FROM ventas.Orders
 SELECT * FROM ventas.[Order Details]
 SELECT * FROM ventas.Customers
 
-	INSERT INTO dbo.Employees (LastName, FirstName) VALUES ('Hernandez', 'Andres')
+INSERT INTO dbo.Employees (LastName, FirstName) VALUES ('Hernandez', 'Andres')
 
 SELECT * FROM ventas.Customers
 
-	INSERT INTO Customers (CustomerID, CompanyName) VALUES ('HDZM', 'Hernandez')
+INSERT INTO Customers (CustomerID, CompanyName) VALUES ('HDZM', 'Hernandez')
 
 
