@@ -7,11 +7,7 @@ CREATE TABLE Prueba(
 
 DENY INSERT On SCHEMA::dbo To sdb_user
 
-
 UPDATE dbo.Customers SET Address = 'Obere Str. 57' WHERE CustomerID = 'ALFKI'
-
-
-
 
 SELECT * FROM SYS.sysprocesses
 
@@ -26,5 +22,8 @@ ORDER BY COUNT( dbid ) DESC
 
 KILL 66
 
-
 sp_who2
+
+
+
+SELECT * FROM Membership;

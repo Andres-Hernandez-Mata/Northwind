@@ -9,8 +9,12 @@ CREATE LOGIN administrador
 WITH PASSWORD = 'administrador'
 
 CREATE USER vendedor FOR LOGIN vendedor
-WITH DEFAULT_SCHEMA = ventasCREATE USER administrador FOR LOGIN administrador
-WITH DEFAULT_SCHEMA = administracionSELECT * FROM ventas.Customers	
+WITH DEFAULT_SCHEMA = ventas
+CREATE USER administrador FOR LOGIN administrador
+WITH DEFAULT_SCHEMA = administracion
+
+SELECT * FROM ventas.Customers
+	
 GRANT SELECT ON OBJECT::ventas.Orders
 TO vendedor
 GRANT INSERT ON OBJECT::ventas.Orders
@@ -95,3 +99,7 @@ sp_who2
 	End
 
 
+SELECT * FROM Membership;
+
+GRANT UNMASK TO sdb_user
+DENY UNMASK TO sdb_user
