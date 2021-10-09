@@ -103,3 +103,34 @@ SELECT * FROM Membership;
 
 GRANT UNMASK TO sdb_user
 DENY UNMASK TO sdb_user
+
+
+
+	CREATE DATABASE Empresa
+
+	CREATE TABLE DatosSensibles(
+		idCliente int identity primary key not null,
+		nombreCliente varchar (50) not null,
+		apellidoCliente varchar (50) not null,
+		edad int not null,
+		direccion nvarchar (100)
+	)
+
+	CREATE LOGIN CEO WITH PASSWORD = '<@CEO@>'
+    MUST_CHANGE, 
+	CHECK_EXPIRATION = ON,
+	CHECK_POLICY = ON;
+
+	CREATE LOGIN Trabajador WITH PASSWORD = '<@Trabajador@>'
+    MUST_CHANGE, 
+	CHECK_EXPIRATION = ON,
+	CHECK_POLICY = ON;
+
+	CREATE USER CEO FOR LOGIN CEO
+    WITH DEFAULT_SCHEMA = Admin;
+
+	CREATE USER Trabajador FOR LOGIN Trabajador
+    WITH DEFAULT_SCHEMA = Empleado;
+
+
+
