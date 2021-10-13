@@ -132,5 +132,59 @@ DENY UNMASK TO sdb_user
 	CREATE USER Trabajador FOR LOGIN Trabajador
     WITH DEFAULT_SCHEMA = Empleado;
 
+	GRANT SELECT ON OBJECT::ventas.Customers
+	TO vendedor
+
+	GRANT SELECT, INSERT, UPDATE, DELETE ON OBJECT::dbo.DatosSensibles
+	TO CEO
+	GRANT INSERT ON OBJECT::dbo.DatosSensibles
+	TO Trabajador
 
 
+		USE Northwind
+
+		CREATE SERVER AUDIT [Audit-20211009-061147]
+		TO FILE 
+		(	FILEPATH = N'D:\Auditor'
+			,MAXSIZE = 0 MB
+			,MAX_ROLLOVER_FILES = 2147483647
+			,RESERVE_DISK_SPACE = OFF
+		) WITH (QUEUE_DELAY = 1000, ON_FAILURE = CONTINUE)
+
+		BACKUP DATABASE [Northwind] TO DISK = 'D:\Auditor\BackupNorthwind.bak'
+
+		CREATE DATABASE AUDIT SPECIFICATION [DatabaseAuditSpecification-20211009-062452]
+	FOR SERVER AUDIT [Audit-20211009-061147]
+	ADD (SELECT ON DATABASE::[Northwind] BY [dbo]),
+	ADD (INSERT ON DATABASE::[Northwind] BY [dbo]),
+	ADD (UPDATE ON DATABASE::[Northwind] BY [dbo]),
+	ADD (DELETE ON DATABASE::[Northwind] BY [dbo])
+
+	SELECT * FROM dbo.Categories WHERE CategoryName = 'Monitores'
+	INSERT INTO dbo.Categories VALUES ('Monitores', '', '')
+	UPDATE dbo.Categories SET Description = 'LG' WHERE CategoryName = 'Monitores'
+	DELETE FROM dbo.Categories WHERE CategoryName = 'Monitores'
+
+	RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
+	WITH  FILE = 1,  NOUNLOAD,  STATS = 5
+
+
+	CREATE PROCEDURE SPEncriptacion
+	AS
+	BEGIN
+		DROP TABLE IF EXISTS tiposEncriptacion
+		
+		CREATE TABLE tiposEncriptacion(
+			id INT NOT NULL IDENTITY,
+			desCrypt VARCHAR(MAX) NOT NULL,
+			desMask VARCHAR(MAX) NOT NULL
+		)
+
+		INSERT INTO tiposEncriptacion VALUES ('Simétrica', 'Advanced Encryption Standard'), 
+		('Asimétrica', 'Rivest, Shamin y Adleman'), ('Flujo', 'Audio y Video'), 
+		('Bloques', 'DES'), ('Estándar de cifrado avanzado', 'AES')
+
+		SELECT CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('FCFM', desCrypt)) AS Encriptacion
+		FROM tiposEncriptacion
+
+	END
