@@ -27,3 +27,7 @@ sp_who2
 
 
 SELECT * FROM Membership;
+
+
+	EXEC SPEncriptacion
+
