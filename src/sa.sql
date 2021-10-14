@@ -102,7 +102,7 @@ sp_who2
 SELECT * FROM Membership;
 
 GRANT UNMASK TO sdb_user
-DENY UNMASK TO sdb_user
+DENY UNMASK TO sa
 
 
 
@@ -169,7 +169,7 @@ DENY UNMASK TO sdb_user
 	WITH  FILE = 1,  NOUNLOAD,  STATS = 5
 
 
-	CREATE PROCEDURE SPEncriptacion
+	ALTER PROCEDURE SPEncriptacion
 	AS
 	BEGIN
 		DROP TABLE IF EXISTS tiposEncriptacion
@@ -182,9 +182,24 @@ DENY UNMASK TO sdb_user
 
 		INSERT INTO tiposEncriptacion VALUES ('Simétrica', 'Advanced Encryption Standard'), 
 		('Asimétrica', 'Rivest, Shamin y Adleman'), ('Flujo', 'Audio y Video'), 
-		('Bloques', 'DES'), ('Estándar de cifrado avanzado', 'AES')
+		('Bloques', 'DES Bloques'), ('Estándar de cifrado avanzado', 'AES Estándar');
 
 		SELECT CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('FCFM', desCrypt)) AS Encriptacion
 		FROM tiposEncriptacion
 
+		ALTER TABLE tiposEncriptacion  
+		ALTER COLUMN desMask ADD MASKED WITH (FUNCTION = 'partial(1,"XXXX",1)');
+
+		SELECT * FROM tiposEncriptacion
+
 	END
+
+
+	GRANT EXECUTE ON OBJECT::dbo.SPEncriptacion
+TO sdb_user
+
+GRANT ALTER, SELECT
+ON SCHEMA::dbo
+TO sdb_user
+
+
