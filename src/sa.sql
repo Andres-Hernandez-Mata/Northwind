@@ -195,11 +195,65 @@ DENY UNMASK TO sa
 	END
 
 
-	GRANT EXECUTE ON OBJECT::dbo.SPEncriptacion
+	GRANT EXECUTE ON OBJECT::dbo.VerInformacion TO sdb_user
+
+	GRANT ALTER, SELECT
+	ON SCHEMA::dbo
+	TO sdb_user
+
+
+
+	CREATE PROCEDURE OcultarInformacion
+	AS
+	BEGIN
+		DROP TABLE IF EXISTS lsbd_EncryMask
+		
+		CREATE TABLE lsbd_EncryMask(
+			id INT NOT NULL IDENTITY,
+			infoEncryNombre VARCHAR(MAX) NOT NULL,
+			infoMaskDireccion VARCHAR(MAX) MASKED WITH (FUNCTION = 'partial(1, "XXXXX", 1)') NOT NULL,
+			infoMaskTelefono VARCHAR(MAX) MASKED WITH (FUNCTION = 'default()') NOT NULL,
+			infoMaskEmail VARCHAR(MAX) MASKED WITH (FUNCTION = 'email()') NOT NULL
+		);
+		
+		IF NOT EXISTS (SELECT * FROM lsbd_EncryMask)
+		BEGIN
+			INSERT INTO lsbd_EncryMask(infoEncryNombre, infoMaskDireccion, infoMaskTelefono,
+			infoMaskEmail) VALUES 
+			('Andres', 'San Pedro', '8181378772', 'andres@gmail.com'), 
+			('Juan', 'Santa Catarina', '8181984162', 'juan@gmail.com'),
+			('Angel', 'Monterrey', '8681883164', 'angel@hotmail.com'),
+			('Luis', 'China Nuevo Leon', '8486483149', 'luis@uanl.com'),
+			('Missael', 'Guadalupe', '8746389151', 'missael@uanl.com');
+		END		
+
+		SELECT id, CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('LSTI', infoEncryNombre)) 
+		AS infoEncryNombre, infoMaskDireccion, infoMaskTelefono, infoMaskEmail
+		FROM lsbd_EncryMask
+
+	END
+
+	
+GRANT UNMASK TO system_user
+REVOKE UNMASK TO sdb_user
+
+
+SELECT system_user;
+
+SELECT * FROM lsbd_EncryMask
+
+
+
+USE Northwind EXEC sp_changedbowner 'sa'
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE, ALTER ON OBJECT::dbo.lsbd_EncryMask
 TO sdb_user
 
-GRANT ALTER, SELECT
-ON SCHEMA::dbo
-TO sdb_user
+GRANT UPDATE,INSERT,DELETE,SELECT,ALTER ON dbo.lsbd_EncryMask TO sdb_user;
+
+GRANT EXECUTE ON OBJECT::dbo.VerInformacion  
+    TO sdb_user;  
 
 
+	DROP TABLE lsbd_EncryMask
