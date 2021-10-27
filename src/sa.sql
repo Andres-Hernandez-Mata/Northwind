@@ -4,7 +4,19 @@ CREATE SCHEMA ventas
 CREATE SCHEMA administracion 
 
 CREATE LOGIN vendedor
-WITH PASSWORD = 'vendedor'			
+WITH PASSWORD = 'vendedor'	
+
+
+	CREATE LOGIN dba
+	WITH PASSWORD = 'dba'
+
+	CREATE USER dba FOR LOGIN dba
+	WITH DEFAULT_SCHEMA = dbo
+
+	GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO dba;
+
+
+
 CREATE LOGIN administrador
 WITH PASSWORD = 'administrador'
 
@@ -257,3 +269,25 @@ GRANT EXECUTE ON OBJECT::dbo.VerInformacion
 
 
 	DROP TABLE lsbd_EncryMask
+
+	CREATE DATABASE AdventureWorksLT2019
+
+
+	RESTORE DATABASE AdventureWorksLT2019 FROM 
+	DISK = N'D:\MS Teams\Seguridad en Base de Datos\SQL\AdventureWorksLT2019\AdventureWorksLT2019.bak'
+	WITH  FILE = 1,  NOUNLOAD,  STATS = 5
+
+	RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
+	
+
+	ALTER AUTHORIZATION ON DATABASE::AdventureWorksLT2017 TO dba;
+
+
+	EXEC SP_CHANGEDBOWNER dba
+
+	EXEC sp_changedbowner 'dba'
+
+	ALTER ROLE [db_owner] ADD MEMBER [dba]
+
+
+
