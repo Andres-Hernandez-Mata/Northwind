@@ -1,3 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+
 SELECT * FROM Customers
 
 CREATE SCHEMA ventas
