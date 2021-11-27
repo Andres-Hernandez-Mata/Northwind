@@ -81,13 +81,14 @@ END
 
 EXEC AdventureWorksLT2017
 
-	SELECT * FROM SalesLT.Customer
+SELECT * FROM SalesLT.Customer
 
-	ALTER AUTHORIZATION ON DATABASE::AdventureWorksLT2017 TO dba;
-	SELECT name as [DB Name],
-    suser_sname(owner_sid) as [Owner] 
-	FROM sys.databases
-	WHERE name='AdventureWorksLT2017'
+ALTER AUTHORIZATION ON DATABASE::AdventureWorksLT2017 TO dba;
+SELECT name as [DB Name],
+suser_sname(owner_sid) as [Owner] 
+FROM sys.databases
+WHERE name='AdventureWorksLT2017'
 
 
-	ALTER TABLE tblCliente  ADD C_RUT_encriptado varbinary(MAX) 
+ALTER TABLE tblCliente  ADD C_RUT_encriptado varbinary(MAX) 
+
