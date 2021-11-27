@@ -36,3 +36,4 @@ END
 EXEC OcultarInformacion
 
 DROP TABLE lsbd_EncryMask
+
