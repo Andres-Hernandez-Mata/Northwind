@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 SELECT * FROM Customers
 
 CREATE SCHEMA ventas
@@ -18,13 +7,13 @@ CREATE LOGIN vendedor
 WITH PASSWORD = 'vendedor'	
 
 
-	CREATE LOGIN dba
-	WITH PASSWORD = 'dba'
+CREATE LOGIN dba
+WITH PASSWORD = 'dba'
 
-	CREATE USER dba FOR LOGIN dba
-	WITH DEFAULT_SCHEMA = dbo
+CREATE USER dba FOR LOGIN dba
+WITH DEFAULT_SCHEMA = dbo
 
-	GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO dba;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO dba;
 
 
 
@@ -99,27 +88,27 @@ GROUP BY dbid, login_time, loginame,
 program_name, status, cmd, spid
 ORDER BY COUNT( dbid ) DESC
 
-	SELECT * FROM Orders, [Order Details], 
-	Products, Suppliers, Shippers, Categories
+SELECT * FROM Orders, [Order Details], 
+Products, Suppliers, Shippers, Categories
 
 KILL 66
 
 sp_who2
 
 
-	SELECT login_time, loginame, status, spid FROM sys.sysprocesses
-	WHERE loginame = 'sdb_user' and status in ('sleeping')
+SELECT login_time, loginame, status, spid FROM sys.sysprocesses
+WHERE loginame = 'sdb_user' and status in ('sleeping')
 
-	IF EXISTS (SELECT login_time, loginame, status, spid FROM sys.sysprocesses
-		WHERE loginame = 'sdb_user' and status in ('sleeping'))
+IF EXISTS (SELECT login_time, loginame, status, spid FROM sys.sysprocesses
+	WHERE loginame = 'sdb_user' and status in ('sleeping'))
+BEGIN
+	DECLARE @id_session INT
+	SELECT @id_session = spid FROM sys.sysprocesses
+		WHERE loginame = 'sdb_user' and status in ('sleeping')
 	BEGIN
-		DECLARE @id_session INT
-		SELECT @id_session = spid FROM sys.sysprocesses
-			WHERE loginame = 'sdb_user' and status in ('sleeping')
-		BEGIN
-			EXEC ('Kill ' + @id_session)
-		END
-	End
+		EXEC ('Kill ' + @id_session)
+	END
+End
 
 
 SELECT * FROM Membership;
@@ -129,132 +118,132 @@ DENY UNMASK TO sa
 
 
 
-	CREATE DATABASE Empresa
+CREATE DATABASE Empresa
 
-	CREATE TABLE DatosSensibles(
-		idCliente int identity primary key not null,
-		nombreCliente varchar (50) not null,
-		apellidoCliente varchar (50) not null,
-		edad int not null,
-		direccion nvarchar (100)
+CREATE TABLE DatosSensibles(
+	idCliente int identity primary key not null,
+	nombreCliente varchar (50) not null,
+	apellidoCliente varchar (50) not null,
+	edad int not null,
+	direccion nvarchar (100)
+)
+
+CREATE LOGIN CEO WITH PASSWORD = '<@CEO@>'
+MUST_CHANGE, 
+CHECK_EXPIRATION = ON,
+CHECK_POLICY = ON;
+
+CREATE LOGIN Trabajador WITH PASSWORD = '<@Trabajador@>'
+MUST_CHANGE, 
+CHECK_EXPIRATION = ON,
+CHECK_POLICY = ON;
+
+CREATE USER CEO FOR LOGIN CEO
+WITH DEFAULT_SCHEMA = Admin;
+
+CREATE USER Trabajador FOR LOGIN Trabajador
+WITH DEFAULT_SCHEMA = Empleado;
+
+GRANT SELECT ON OBJECT::ventas.Customers
+TO vendedor
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON OBJECT::dbo.DatosSensibles
+TO CEO
+GRANT INSERT ON OBJECT::dbo.DatosSensibles
+TO Trabajador
+
+
+USE Northwind
+
+CREATE SERVER AUDIT [Audit-20211009-061147]
+TO FILE 
+(	FILEPATH = N'D:\Auditor'
+	,MAXSIZE = 0 MB
+	,MAX_ROLLOVER_FILES = 2147483647
+	,RESERVE_DISK_SPACE = OFF
+) WITH (QUEUE_DELAY = 1000, ON_FAILURE = CONTINUE)
+
+BACKUP DATABASE [Northwind] TO DISK = 'D:\Auditor\BackupNorthwind.bak'
+
+CREATE DATABASE AUDIT SPECIFICATION [DatabaseAuditSpecification-20211009-062452]
+FOR SERVER AUDIT [Audit-20211009-061147]
+ADD (SELECT ON DATABASE::[Northwind] BY [dbo]),
+ADD (INSERT ON DATABASE::[Northwind] BY [dbo]),
+ADD (UPDATE ON DATABASE::[Northwind] BY [dbo]),
+ADD (DELETE ON DATABASE::[Northwind] BY [dbo])
+
+SELECT * FROM dbo.Categories WHERE CategoryName = 'Monitores'
+INSERT INTO dbo.Categories VALUES ('Monitores', '', '')
+UPDATE dbo.Categories SET Description = 'LG' WHERE CategoryName = 'Monitores'
+DELETE FROM dbo.Categories WHERE CategoryName = 'Monitores'
+
+RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
+WITH  FILE = 1,  NOUNLOAD,  STATS = 5
+
+
+ALTER PROCEDURE SPEncriptacion
+AS
+BEGIN
+	DROP TABLE IF EXISTS tiposEncriptacion
+		
+	CREATE TABLE tiposEncriptacion(
+		id INT NOT NULL IDENTITY,
+		desCrypt VARCHAR(MAX) NOT NULL,
+		desMask VARCHAR(MAX) NOT NULL
 	)
 
-	CREATE LOGIN CEO WITH PASSWORD = '<@CEO@>'
-    MUST_CHANGE, 
-	CHECK_EXPIRATION = ON,
-	CHECK_POLICY = ON;
+	INSERT INTO tiposEncriptacion VALUES ('Simétrica', 'Advanced Encryption Standard'), 
+	('Asimétrica', 'Rivest, Shamin y Adleman'), ('Flujo', 'Audio y Video'), 
+	('Bloques', 'DES Bloques'), ('Estándar de cifrado avanzado', 'AES Estándar');
 
-	CREATE LOGIN Trabajador WITH PASSWORD = '<@Trabajador@>'
-    MUST_CHANGE, 
-	CHECK_EXPIRATION = ON,
-	CHECK_POLICY = ON;
+	SELECT CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('FCFM', desCrypt)) AS Encriptacion
+	FROM tiposEncriptacion
 
-	CREATE USER CEO FOR LOGIN CEO
-    WITH DEFAULT_SCHEMA = Admin;
+	ALTER TABLE tiposEncriptacion  
+	ALTER COLUMN desMask ADD MASKED WITH (FUNCTION = 'partial(1,"XXXX",1)');
 
-	CREATE USER Trabajador FOR LOGIN Trabajador
-    WITH DEFAULT_SCHEMA = Empleado;
+	SELECT * FROM tiposEncriptacion
 
-	GRANT SELECT ON OBJECT::ventas.Customers
-	TO vendedor
-
-	GRANT SELECT, INSERT, UPDATE, DELETE ON OBJECT::dbo.DatosSensibles
-	TO CEO
-	GRANT INSERT ON OBJECT::dbo.DatosSensibles
-	TO Trabajador
+END
 
 
-		USE Northwind
+GRANT EXECUTE ON OBJECT::dbo.VerInformacion TO sdb_user
 
-		CREATE SERVER AUDIT [Audit-20211009-061147]
-		TO FILE 
-		(	FILEPATH = N'D:\Auditor'
-			,MAXSIZE = 0 MB
-			,MAX_ROLLOVER_FILES = 2147483647
-			,RESERVE_DISK_SPACE = OFF
-		) WITH (QUEUE_DELAY = 1000, ON_FAILURE = CONTINUE)
-
-		BACKUP DATABASE [Northwind] TO DISK = 'D:\Auditor\BackupNorthwind.bak'
-
-		CREATE DATABASE AUDIT SPECIFICATION [DatabaseAuditSpecification-20211009-062452]
-	FOR SERVER AUDIT [Audit-20211009-061147]
-	ADD (SELECT ON DATABASE::[Northwind] BY [dbo]),
-	ADD (INSERT ON DATABASE::[Northwind] BY [dbo]),
-	ADD (UPDATE ON DATABASE::[Northwind] BY [dbo]),
-	ADD (DELETE ON DATABASE::[Northwind] BY [dbo])
-
-	SELECT * FROM dbo.Categories WHERE CategoryName = 'Monitores'
-	INSERT INTO dbo.Categories VALUES ('Monitores', '', '')
-	UPDATE dbo.Categories SET Description = 'LG' WHERE CategoryName = 'Monitores'
-	DELETE FROM dbo.Categories WHERE CategoryName = 'Monitores'
-
-	RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
-	WITH  FILE = 1,  NOUNLOAD,  STATS = 5
+GRANT ALTER, SELECT
+ON SCHEMA::dbo
+TO sdb_user
 
 
-	ALTER PROCEDURE SPEncriptacion
-	AS
+
+CREATE PROCEDURE OcultarInformacion
+AS
+BEGIN
+	DROP TABLE IF EXISTS lsbd_EncryMask
+		
+	CREATE TABLE lsbd_EncryMask(
+		id INT NOT NULL IDENTITY,
+		infoEncryNombre VARCHAR(MAX) NOT NULL,
+		infoMaskDireccion VARCHAR(MAX) MASKED WITH (FUNCTION = 'partial(1, "XXXXX", 1)') NOT NULL,
+		infoMaskTelefono VARCHAR(MAX) MASKED WITH (FUNCTION = 'default()') NOT NULL,
+		infoMaskEmail VARCHAR(MAX) MASKED WITH (FUNCTION = 'email()') NOT NULL
+	);
+		
+	IF NOT EXISTS (SELECT * FROM lsbd_EncryMask)
 	BEGIN
-		DROP TABLE IF EXISTS tiposEncriptacion
-		
-		CREATE TABLE tiposEncriptacion(
-			id INT NOT NULL IDENTITY,
-			desCrypt VARCHAR(MAX) NOT NULL,
-			desMask VARCHAR(MAX) NOT NULL
-		)
+		INSERT INTO lsbd_EncryMask(infoEncryNombre, infoMaskDireccion, infoMaskTelefono,
+		infoMaskEmail) VALUES 
+		('Andres', 'San Pedro', '8181378772', 'andres@gmail.com'), 
+		('Juan', 'Santa Catarina', '8181984162', 'juan@gmail.com'),
+		('Angel', 'Monterrey', '8681883164', 'angel@hotmail.com'),
+		('Luis', 'China Nuevo Leon', '8486483149', 'luis@uanl.com'),
+		('Missael', 'Guadalupe', '8746389151', 'missael@uanl.com');
+	END		
 
-		INSERT INTO tiposEncriptacion VALUES ('Simétrica', 'Advanced Encryption Standard'), 
-		('Asimétrica', 'Rivest, Shamin y Adleman'), ('Flujo', 'Audio y Video'), 
-		('Bloques', 'DES Bloques'), ('Estándar de cifrado avanzado', 'AES Estándar');
+	SELECT id, CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('LSTI', infoEncryNombre)) 
+	AS infoEncryNombre, infoMaskDireccion, infoMaskTelefono, infoMaskEmail
+	FROM lsbd_EncryMask
 
-		SELECT CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('FCFM', desCrypt)) AS Encriptacion
-		FROM tiposEncriptacion
-
-		ALTER TABLE tiposEncriptacion  
-		ALTER COLUMN desMask ADD MASKED WITH (FUNCTION = 'partial(1,"XXXX",1)');
-
-		SELECT * FROM tiposEncriptacion
-
-	END
-
-
-	GRANT EXECUTE ON OBJECT::dbo.VerInformacion TO sdb_user
-
-	GRANT ALTER, SELECT
-	ON SCHEMA::dbo
-	TO sdb_user
-
-
-
-	CREATE PROCEDURE OcultarInformacion
-	AS
-	BEGIN
-		DROP TABLE IF EXISTS lsbd_EncryMask
-		
-		CREATE TABLE lsbd_EncryMask(
-			id INT NOT NULL IDENTITY,
-			infoEncryNombre VARCHAR(MAX) NOT NULL,
-			infoMaskDireccion VARCHAR(MAX) MASKED WITH (FUNCTION = 'partial(1, "XXXXX", 1)') NOT NULL,
-			infoMaskTelefono VARCHAR(MAX) MASKED WITH (FUNCTION = 'default()') NOT NULL,
-			infoMaskEmail VARCHAR(MAX) MASKED WITH (FUNCTION = 'email()') NOT NULL
-		);
-		
-		IF NOT EXISTS (SELECT * FROM lsbd_EncryMask)
-		BEGIN
-			INSERT INTO lsbd_EncryMask(infoEncryNombre, infoMaskDireccion, infoMaskTelefono,
-			infoMaskEmail) VALUES 
-			('Andres', 'San Pedro', '8181378772', 'andres@gmail.com'), 
-			('Juan', 'Santa Catarina', '8181984162', 'juan@gmail.com'),
-			('Angel', 'Monterrey', '8681883164', 'angel@hotmail.com'),
-			('Luis', 'China Nuevo Leon', '8486483149', 'luis@uanl.com'),
-			('Missael', 'Guadalupe', '8746389151', 'missael@uanl.com');
-		END		
-
-		SELECT id, CONVERT(VARBINARY(MAX), ENCRYPTBYPASSPHRASE('LSTI', infoEncryNombre)) 
-		AS infoEncryNombre, infoMaskDireccion, infoMaskTelefono, infoMaskEmail
-		FROM lsbd_EncryMask
-
-	END
+END
 
 	
 GRANT UNMASK TO system_user
@@ -276,29 +265,29 @@ TO sdb_user
 GRANT UPDATE,INSERT,DELETE,SELECT,ALTER ON dbo.lsbd_EncryMask TO sdb_user;
 
 GRANT EXECUTE ON OBJECT::dbo.VerInformacion  
-    TO sdb_user;  
+TO sdb_user;  
 
 
-	DROP TABLE lsbd_EncryMask
+DROP TABLE lsbd_EncryMask
 
-	CREATE DATABASE AdventureWorksLT2019
+CREATE DATABASE AdventureWorksLT2019
 
 
-	RESTORE DATABASE AdventureWorksLT2019 FROM 
-	DISK = N'D:\MS Teams\Seguridad en Base de Datos\SQL\AdventureWorksLT2019\AdventureWorksLT2019.bak'
-	WITH  FILE = 1,  NOUNLOAD,  STATS = 5
+RESTORE DATABASE AdventureWorksLT2019 FROM 
+DISK = N'D:\MS Teams\Seguridad en Base de Datos\SQL\AdventureWorksLT2019\AdventureWorksLT2019.bak'
+WITH  FILE = 1,  NOUNLOAD,  STATS = 5
 
-	RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
+RESTORE DATABASE [Northwind] FROM  DISK = N'D:\Auditor\BackupNorthwind.bak' 
 	
 
-	ALTER AUTHORIZATION ON DATABASE::AdventureWorksLT2017 TO dba;
+ALTER AUTHORIZATION ON DATABASE::AdventureWorksLT2017 TO dba;
 
 
-	EXEC SP_CHANGEDBOWNER dba
+EXEC SP_CHANGEDBOWNER dba
 
-	EXEC sp_changedbowner 'dba'
+EXEC sp_changedbowner 'dba'
 
-	ALTER ROLE [db_owner] ADD MEMBER [dba]
+ALTER ROLE [db_owner] ADD MEMBER [dba]
 
 
 
